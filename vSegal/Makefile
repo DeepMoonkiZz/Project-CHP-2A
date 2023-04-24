@@ -13,7 +13,7 @@ CFLAGS = $(OPTIM_FLAG)
 PROG = run
 
 # Les fichiers source à compiler
-SRC = main.c mod_gradient.c mod_operations.c
+SRC = main.c mod_gradient.c mod_operations.c mod_scheme.c mod_function.c mod_display.c
 
 # La commande complète : compile seulement si un fichier a été modifié
 $(PROG) : $(SRC)

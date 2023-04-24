@@ -4,9 +4,9 @@
 
 #include "mod_operations.h"
 
-double* gradient_conjugate(double* A, double* x, double* b, double eps, double kmax, int n) 
+double* gradient_conjugate(double* x, double* b, double eps, double kmax, int Nx, int Ny, double DeltaT, double DeltaX, double DeltaY) 
 {
-    int k = 0;
+    int k = 0, n = Nx*Ny;
 
     double alpha, gamma, beta;
     double* r = (double*)malloc(n*sizeof(double));
@@ -15,19 +15,12 @@ double* gradient_conjugate(double* A, double* x, double* b, double eps, double k
     double* xplus = (double*)malloc(n*sizeof(double));
     double* rplus = (double*)malloc(n*sizeof(double));
 
-    r = vector_substract(b, matvect_product(A, x, n), n);
+    r = vector_substract(b, matvect_product(x, Nx, Ny, DeltaT, DeltaX, DeltaY), n);
     p = r;
     beta = sqrt(vector_scalar(r, r, n));
     
-    printf("Before algo x = (");
-    for (int i=0; i<n-1; i++) {
-        printf("%f, ", x[i]);
-    }
-    printf("%f)\n", x[n-1]);
-    printf("Norme = %f\n\n", beta);
-
     while (beta > eps && k < kmax) {
-        z = matvect_product(A, p, n);
+        z = matvect_product(p, Nx, Ny, DeltaT, DeltaX, DeltaY);
         alpha = vector_scalar(r, r, n) / vector_scalar(z, p, n);
         xplus = vector_sum(x, vector_coef(p, alpha, n), n);
         rplus = vector_substract(r, vector_coef(z, alpha, n), n);
@@ -37,14 +30,6 @@ double* gradient_conjugate(double* A, double* x, double* b, double eps, double k
         r = rplus;
         x = xplus;
         k += 1;
-
-        printf("While algo x = (");
-        for (int i=0; i<n-1; i++) {
-            printf("%f, ", x[i]);
-        }
-        printf("%f)\n", x[n-1]);
-
-        printf("Norme = %f , Itérations = %d \n\n", beta, k);
     }
     if (k > kmax) {
         printf("Tolérence non atteinte norme=%f", beta);

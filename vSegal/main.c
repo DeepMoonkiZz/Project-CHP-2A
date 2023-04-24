@@ -4,58 +4,65 @@
 
 #include "mod_gradient.h"
 #include "mod_operations.h"
+#include "mod_scheme.h"
+#include "mod_display.h"
 
 
 int main(int argc, char ** argv) 
 {
-    int n;
+    // Lecture et définitions des paramètre dans le fichier parameter.dat 
+    // ---------------------------------------------------------------------------
 
-    double *A, *x, *b, *r; 
+    FILE *file_parameter;
+    int Nx, Ny, kmax;
+    double Lx, Ly, D, DeltaT, Tmax, eps;
+    char val_file[100];
 
-    n = 10;
+    file_parameter = fopen("parameter.dat","r");
 
-    A = (double*)malloc(n*n*sizeof(double));
-    x = (double*)malloc(n*sizeof(double));
-    b = (double*)malloc(n*sizeof(double));
-    r = (double*)malloc(n*sizeof(double));
+    // Verification de l'existence du fichier
 
-    // Decla du vecteur x
-    for (int i=0; i<n; i++) {
-        x[i] = 0.;
-        b[i] = i;
+    if(file_parameter == NULL) {
+    printf("Erreur : Impossible d'ouvrir le fichier parameter.dat.\n");
+    return 1;
     }
 
-    // Decla de la matrice M
-    for (int i=0; i<n; i++) {
-        for (int j=0; j<n; j++) {
-            A[i*n+j] = 0;
-            if (i==j) {
-                A[i*n+j] = 2;
-            }
-            if (i==j-1) {
-                A[i*n+j] = -1;
-            }
-            if (i==j+1) {
-                A[i*n+j] = -1;
-            }
-        }
-    } 
+    //Récupération des valeures à l'aide de la chaîne de charactères val_file
 
-    x = gradient_conjugate(A, x, b, 0.00001, 10000, n);
+    fgets(val_file, 100, file_parameter);
+    fgets(val_file, 100, file_parameter);
+    sscanf(val_file, "%d\n%d\n%lf\n%lf\n%lf\n%lf\n%d\n%lf\n%lf\n", &Nx, &Ny, &Lx, &Ly, &D, &DeltaT, &kmax, &Tmax, &eps);
+    fclose(file_parameter);
 
-    printf("After algo x = (");
-    for (int i=0; i<n-1; i++) {
-        printf("%f, ", x[i]);
+    // Définitions de la variable de temps ainsi que les pas d'espace
+
+    double t = 0, DeltaX = Lx/(Nx-1), DeltaY = Ly/(Ny-1);
+
+    // Définitions des tableau de stockage de u ainsi que du second membre
+
+    double *u, *b; 
+    u = (double*)malloc(Nx*Ny*sizeof(double));
+    b = (double*)malloc(Nx*Ny*sizeof(double));
+
+
+    // Execution du programme de résolution du problème
+    // ---------------------------------------------------------------------------
+
+    // Initialisation du probleme 
+    for (int i=0; i<Nx*Ny; i++) {
+        u[i] = 0.;
     }
-    printf("%f)\n\n", x[n-1]);
 
-    r = vector_substract(matvect_product(A, x, n), b, n);
-
-    printf("Ax - b = (");
-    for (int i=0; i<n-1; i++) {
-        printf("%f, ", r[i]);
+    // Boucle en temps pour les itérations
+    while (t<Tmax) {
+        t += DeltaT;
+        b = Build_vect_b(u, t, Nx, Ny, DeltaT, DeltaX, DeltaY, Lx, Ly, D);
+        u = gradient_conjugate(u, b, eps, kmax, Nx, Ny, DeltaT, DeltaX, DeltaY);
+        free(b);
     }
-    printf("%f)\n\n", r[n-1]);
+    printf("Tmax = %f\n\n", t);
+
+    display_u(u, Nx, Ny, DeltaX, DeltaY);
 
 
     return 0;

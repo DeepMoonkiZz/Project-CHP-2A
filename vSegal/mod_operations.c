@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+
 double* vector_sum(double* u, double* v, int n)
 // Sum of u+v = x
 {
@@ -54,16 +55,31 @@ double vector_scalar(double* u, double* v, int n)
 }
 
 
-double* matvect_product(double* A, double* x, int n) 
-// Matrix vector product of A (matrix) and b (vector)
+double* matvect_product(double* x, int Nx, int Ny, double DeltaT, double DeltaX, double DeltaY) 
+// Matrix vector product of A (matrix) and x (vector)
 {
-    double* b = (double*)malloc(n*sizeof(double));
+    double* b = (double*)malloc(Nx*Ny*sizeof(double));
 
-    for (int i=0; i<n; i++) {
-        b[i] = 0;
-        for (int j=0; j<n; j++) {
-            b[i] += A[i*n+j] * x[j];
+    double C, Cx, Cy;
+    
+    C = 1 + 2*DeltaT/(DeltaX*DeltaX) + 2*DeltaT/(DeltaY*DeltaY);
+    Cx = -DeltaT/(DeltaX*DeltaX);
+    Cy = -DeltaT/(DeltaY*DeltaY);
+
+    for (int i=0; i<Nx*Ny; i++) {
+        b[i] = C * x[i];
+        if (i%Nx != Nx-1) {
+            b[i] += Cx * x[i+1];
+        }            
+        if (i%Nx != 0) {
+            b[i] += Cx * x[i-1];
         }
+        if (i/Nx != Ny-1) {
+            b[i] += Cy * x[i+Nx];
+        }            
+        if (i/Nx != 0) {
+            b[i] += Cy * x[i-Nx];
+        }            
     }
 
     return b;

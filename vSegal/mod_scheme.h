@@ -1,0 +1,1 @@
+double* Build_vect_b(double* u, double t, int Nx, int Ny, double DeltaT, double DeltaX, double DeltaY, double Lx, double Ly, double D);
