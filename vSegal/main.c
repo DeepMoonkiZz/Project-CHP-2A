@@ -10,11 +10,14 @@
 
 int main(int argc, char ** argv) 
 {
+    // ---------------------------------------------------------------------------
+
     // Lecture et définitions des paramètre dans le fichier parameter.dat 
+    
     // ---------------------------------------------------------------------------
 
     FILE *file_parameter;
-    int Nx, Ny, kmax;
+    int Nx, Ny, kmax, f;
     double Lx, Ly, D, DeltaT, Tmax, eps;
     char val_file[100];
 
@@ -23,15 +26,15 @@ int main(int argc, char ** argv)
     // Verification de l'existence du fichier
 
     if(file_parameter == NULL) {
-    printf("Erreur : Impossible d'ouvrir le fichier parameter.dat.\n");
-    return 1;
+        printf("Erreur : Impossible d'ouvrir le fichier parameter.dat.\n");
+        return 1;
     }
 
     //Récupération des valeures à l'aide de la chaîne de charactères val_file
 
     fgets(val_file, 100, file_parameter);
     fgets(val_file, 100, file_parameter);
-    sscanf(val_file, "%d\n%d\n%lf\n%lf\n%lf\n%lf\n%d\n%lf\n%lf\n", &Nx, &Ny, &Lx, &Ly, &D, &DeltaT, &kmax, &Tmax, &eps);
+    sscanf(val_file, "%d\n%d\n%lf\n%lf\n%lf\n%lf\n%d\n%lf\n%lf\n%d\n", &Nx, &Ny, &Lx, &Ly, &D, &DeltaT, &kmax, &Tmax, &eps, &f);
     fclose(file_parameter);
 
     // Définitions de la variable de temps ainsi que les pas d'espace
@@ -45,7 +48,10 @@ int main(int argc, char ** argv)
     b = (double*)malloc(Nx*Ny*sizeof(double));
 
 
+    // ---------------------------------------------------------------------------
+
     // Execution du programme de résolution du problème
+
     // ---------------------------------------------------------------------------
 
     // Initialisation du probleme 
@@ -56,11 +62,10 @@ int main(int argc, char ** argv)
     // Boucle en temps pour les itérations
     while (t<Tmax) {
         t += DeltaT;
-        b = Build_vect_b(u, t, Nx, Ny, DeltaT, DeltaX, DeltaY, Lx, Ly, D);
+        b = Build_vect_b(u, t, Nx, Ny, DeltaT, DeltaX, DeltaY, Lx, Ly, D, f);
         u = gradient_conjugate(u, b, eps, kmax, Nx, Ny, DeltaT, DeltaX, DeltaY);
         free(b);
     }
-    printf("Tmax = %f\n\n", t);
 
     display_u(u, Nx, Ny, DeltaX, DeltaY);
 

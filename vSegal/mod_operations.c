@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "mod_operations.h"
 
 double* vector_sum(double* u, double* v, int n)
 // Sum of u+v = x

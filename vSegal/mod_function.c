@@ -5,34 +5,43 @@
 #define PI acos(-1)
 
 
-double f_1(double x, double y)
+double func(double x, double y,double Lx, double Ly, double t, int f)
 {
-  return 2*(y - y*y + x - x*x);
+  if (f==1) {
+    return 2*(y - y*y + x - x*x);
+  }
+  else if (f==2) {
+    return sin(x) + cos(y);
+  }
+  else {
+    return exp(-(x-Lx/2)*(x-Lx/2))*exp(-(y-Ly/2)*(y-Ly/2))*cos(t*PI/2);
+  }
 }
 
 
-double f_2(double x, double y)
+double g(double x, double y, int f)
 {
-  return sin(x) + cos(y);
+  if (f==1) {
+    return 0;
+  }
+  else if (f==2) {
+    return sin(x) + cos(y);
+  }
+  else {
+    return 0;
+  }
 }
 
 
-double f_3(double x, double y,double Lx, double Ly, double t)
-{
-  return exp(-(x-Lx/2)*(x-Lx/2))*exp(-(y-Ly/2)*(y-Ly/2))*cos(t*PI/2);
-}
-
-
-double g(double x, double y)
-{
-  return 0;
-  // return sin(x) + cos(y);
-}
-
-
-double h(double x, double y)
-{
-  // return 0;
-  // return sin(x) + cos(y);
-  return 1;
+double h(double x, double y, int f)
+{  
+  if (f==1) {
+    return 0;
+  }
+  else if (f==2) {
+    return sin(x) + cos(y);
+  }
+  else {
+    return 1;
+  }
 }

@@ -1,5 +1,7 @@
-#include "mod_display.h"
 #include <stdio.h>
+
+#include "mod_display.h"
+
 
 void display_u(double * u, int Nx, int Ny, double DeltaX, double DeltaY){
 
