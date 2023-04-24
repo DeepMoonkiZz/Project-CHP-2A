@@ -1,1 +1,1 @@
-void gradient_conjugate(double* A, double* x, double* b, double eps, double kmax, int n);
+double* gradient_conjugate(double* A, double* x, double* b, double eps, double kmax, int n);
