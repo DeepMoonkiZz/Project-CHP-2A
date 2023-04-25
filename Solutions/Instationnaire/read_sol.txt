@@ -1,0 +1,14 @@
+set palette defined (-5 0 0 1, 0 1 1 1, 5 1 0 0)
+set terminal png
+
+dt=0.1
+
+do for [i = 0:20] {
+	t=i*dt
+	set output "sol_".i.".png"
+    plot "./sol_".i.".dat" u 1:2:3 with image
+    #set title "./sol_".i.".dat"
+    set title "t = ".sprintf("%f", t)." s"
+    show title
+    pause 0.2
+}

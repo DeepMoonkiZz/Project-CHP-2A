@@ -1,6 +1,5 @@
 {
     "files.associations": {
-        "stdlib.h": "c",
         "mod_gradient.h": "c"
     }
 }
