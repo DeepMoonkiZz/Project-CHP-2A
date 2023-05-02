@@ -19,9 +19,23 @@ int main(int argc, char ** argv)
 
     // ---------------------------------------------------------------------------
 
+    // Intialisation de MPI et de la fonction charge
+
+/*    int rank, nproc;    
+    int iBeg, iEnd;
+
+    iBeg = 0;
+    iEnd = 0;
+
+    MPI_Init(&argc, &argv);
+
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &nproc);
+*/
+
     // Création de la structure
 
-    struct data data;
+    struct data data; // = {.rank = rank, .nproc = nproc, .iBeg = iBeg, .iEnd = iEnd};
 
     Read_parameter(&data);
 
