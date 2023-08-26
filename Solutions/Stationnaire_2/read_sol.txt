@@ -1,6 +1,0 @@
-set palette defined (-5 0 0 1, 0 1 1 1, 5 1 0 0)
-set terminal png
-set output "sol_0.png"
-plot "sol_0.dat" u 1:2:3 with image
-set title "Solution stationnaire : cas 2"
-show title

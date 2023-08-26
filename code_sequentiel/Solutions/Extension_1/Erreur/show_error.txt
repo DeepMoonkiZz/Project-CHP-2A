@@ -1,0 +1,7 @@
+set palette defined (-5 0 0 1, 0 1 1 1, 5 1 0 0)
+
+plot "error.dat" u 1:2 w lp
+set title "Erreur : cas 4"
+show title
+
+pause 60
