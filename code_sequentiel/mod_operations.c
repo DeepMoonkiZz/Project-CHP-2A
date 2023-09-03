@@ -69,16 +69,15 @@ void matvect_product(double* b, double* x, int Nx, int Ny, double DeltaT, double
             b[i] += Cy * x[i-Nx];
         }
     }
-/*
+
     if (f==4 || f==5) {
         for (int i = 0; i < Nx; i++) {
-            b[Nx*(Ny-1) + i] -= Cy * x[Nx*(Ny-1) + i];
+            b[Nx*(Ny-1) + i] += Cy * x[Nx*(Ny-1) + i];
         }
         for (int j = 0; j < Ny; j++) {
-            b[Nx*j] -= Cx * x[Nx*j];
+            b[Nx*j] += Cx * x[Nx*j];
         }
     }
-*/
 }
 
 
@@ -88,8 +87,5 @@ double Calculate_error(double* u_exact, double* u, int n)
     for (int i=0; i<n; i++) {
         sum += (u_exact[i]-u[i])*(u_exact[i]-u[i]);
     }
-    sum = sqrt(sum);
-    sum = sum/(1.0*n);
-    
-    return sum;
+    return sqrt(sum)/n;
 }

@@ -1,2 +1,2 @@
-Nx  Ny  xmax xmin ymax ymin  D     dt  kmax  T  eps       function 
-101 101 .3   -.3   1.  -1.    0.1   .1  10000 10. 0.000001 4
+Nx  Ny  xmin xmax ymin ymax  D     dt  kmax  T  eps       function 
+101 101 .0   1.   0.   1.    1.0   .1  10000 10. 0.000001 1

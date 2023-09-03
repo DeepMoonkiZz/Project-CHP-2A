@@ -25,7 +25,7 @@ void Read_parameter(struct data *dt)
 
     fgets(val_file, 100, file_parameter);
     fgets(val_file, 100, file_parameter);
-    sscanf(val_file, "%d\n%d\n%lf\n%lf\n%lf\n%lf\n%lf\n%lf\n%d\n%lf\n%lf\n%d\n", &Nx, &Ny, &xmax, &xmin, &ymax, &ymin, &D, &DeltaT, &kmax, &Tmax, &eps, &f);
+    sscanf(val_file, "%d\n%d\n%lf\n%lf\n%lf\n%lf\n%lf\n%lf\n%d\n%lf\n%lf\n%d\n", &Nx, &Ny, &xmin, &xmax, &ymin, &ymax, &D, &DeltaT, &kmax, &Tmax, &eps, &f);
     fclose(file_parameter);
     Lx = xmax - xmin;
     Ly = ymax - ymin;

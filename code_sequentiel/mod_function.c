@@ -69,8 +69,7 @@ double h(double x, double y, struct data dt)
 
 double h_left(double y, double t, struct data dt)
 {
-  return func_exact(dt.xmin-dt.DeltaX, y, t, dt);
-  // return -3*PI*sin(3.*PI*dt.xmin)*(y-(dt.ymin+dt.ymax)/4.)/(t+1.0);
+  return -3*PI*sin(3.*PI*(dt.xmin-dt.DeltaX))*(y-(dt.ymin+dt.ymax)/4.)/(t+1.0);
 }
 
 double g_right(double y, double t, struct data dt)
@@ -80,8 +79,7 @@ double g_right(double y, double t, struct data dt)
 
 double h_top(double x, double t, struct data dt)
 {
-  return func_exact(x, dt.ymax+dt.DeltaY, t, dt);
-  // return cos(3.*PI*x)/(t+1.0);
+  return cos(3.*PI*x)/(t+1.0);
 }
 
 double g_bottom(double x, double t, struct data dt)

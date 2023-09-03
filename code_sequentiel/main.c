@@ -53,7 +53,7 @@ int main(int argc, char ** argv)
         sprintf(filename, "Solutions/Extension_1/Erreur/error.dat");
     }
     else if (data.function==5) {
-        sprintf(filename, "Solutions/Extension_1/Erreur/error.dat");
+        sprintf(filename, "Solutions/Extension_2/Erreur/error.dat");
     }
     else {
         printf("Erreur dans le numero de fonction choisit.\n");
@@ -79,9 +79,10 @@ int main(int argc, char ** argv)
 
     int p = 0;
 
-    while (t<data.Tmax) {
+    while (data.Tmax > t + data.DeltaT/2) {
         t += data.DeltaT;
 
+        printf("t: %f tmax: %f \n",t,data.Tmax);
         // Compute u
         Build_vect_b(b, u, t, data);
         gradient_conjugate(u, b, data);

@@ -30,11 +30,11 @@ void Build_vect_b(double* b, double* u, double t, struct data dt)
         // Up and down side
         for (int i = 0; i < dt.Nx; i++) {
             b[i] += Cy * g_bottom(dt.xmin + i*dt.DeltaX, t, dt);
-            b[dt.Nx*(dt.Ny-1) + i] += Cy * h_top(dt.xmin + i*dt.DeltaX, t, dt); // dt.DeltaY * 
+            b[dt.Nx*(dt.Ny-1) + i] -= dt.DeltaY * Cy * h_top(dt.xmin + i*dt.DeltaX, t, dt);
         }
         // Left and right side
         for (int j = 0; j < dt.Ny; j++) {
-            b[dt.Nx*j] += Cx * h_left(dt.ymin + j*dt.DeltaY, t, dt); // dt.DeltaX * 
+            b[dt.Nx*j] -= dt.DeltaX * Cx * h_left(dt.ymin + j*dt.DeltaY, t, dt); 
             b[dt.Nx*j + dt.Nx-1] += Cx * g_right(dt.ymin + j*dt.DeltaY, t, dt);
         }
     }
