@@ -7,4 +7,6 @@ void Build_vect_b(double* b, double* u, double t, struct data dt);
 
 void Build_u_exact(double* u_exact, double t, struct data dt);
 
+void Build_comp_vect(double *u, double *u_part, struct data dt);
+
 #endif // MOD_SCHEME_H

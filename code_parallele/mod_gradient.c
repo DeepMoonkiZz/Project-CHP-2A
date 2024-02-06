@@ -3,53 +3,63 @@
 #include <math.h>
 #include <string.h>
 
+#include <openmpi/mpi.h>
+
 #include "mod_operations.h"
 #include "mod_gradient.h"
 
-void gradient_conjugate(double* u, double* b, struct data dt)
+void gradient_conjugate(double *u, double *b, struct data dt)
 {
-    int k = 0, n = dt.Nx*dt.Ny;
+    int k = 0;
 
     double alpha, gamma, beta;
-    double* r = (double*)malloc(n*sizeof(double));
-    double* p = (double*)malloc(n*sizeof(double));
-    double* z = (double*)malloc(n*sizeof(double));
-    double* uplus = (double*)malloc(n*sizeof(double));
-    double* rplus = (double*)malloc(n*sizeof(double));
-    double* alphap = (double*)malloc(n*sizeof(double));
-    double* alphaz = (double*)malloc(n*sizeof(double));
-    double* gammap = (double*)malloc(n*sizeof(double));
-    
-    matvect_product(z, u, dt.Nx, dt.Ny, dt.DeltaT, dt.DeltaX, dt.DeltaY); // z = A * u
-    vector_substract(r, b, z, n); // r = b - z
-    memcpy(p, r, dt.Nx*dt.Ny*sizeof(double)); // p = r
-    beta = sqrt(vector_scalar(r, r, n)); // beta = ||r||
+    double *r, *p, *z, *uplus, *rplus, *alphap, *alphaz, *gammap;
+    r = (double*)malloc(dt.npart*sizeof(double));
+    p = (double*)malloc(dt.npart*sizeof(double));
+    z = (double*)malloc(dt.npart*sizeof(double));
+    uplus = (double*)malloc(dt.npart*sizeof(double));
+    rplus = (double*)malloc(dt.npart*sizeof(double));
+    alphap = (double*)malloc(dt.npart*sizeof(double));
+    alphaz = (double*)malloc(dt.npart*sizeof(double));
+    gammap = (double*)malloc(dt.npart*sizeof(double));
+
+    matvect_product(z, u, dt); // z = A * u
+        
+    vector_substract(r, b, z, dt.npart); // r = b - z
+    memcpy(p, r, dt.npart*sizeof(double)); // p = r
+    beta = sqrt(vector_scalar(r, r, dt)); // beta = ||r||
 
     while (beta > dt.eps && k < dt.Kmax) {
 
-        matvect_product(z, p, dt.Nx, dt.Ny, dt.DeltaT, dt.DeltaX, dt.DeltaY); // z = Ap
+        matvect_product(z, p, dt); // z = Ap
+        alpha = vector_scalar(r, r, dt) / vector_scalar(z, p, dt); // alpha = <r,r> / <z,p>
 
-        alpha = vector_scalar(r, r, n) / vector_scalar(z, p, n); // alpha = <r,r> / <z,p>
+        vector_coef(alphap, p, alpha, dt.npart); // alphax = alpha * p
+        vector_sum(uplus, u, alphap, dt.npart); // x = x + alphap
 
-        vector_coef(alphap, p, alpha, n); // alphax = alpha * p
-        vector_sum(uplus, u, alphap, n); // x = x + alphap
+        vector_coef(alphaz, z, alpha, dt.npart); // alphar = alpha * z
+        vector_substract(rplus, r, alphaz, dt.npart); // r = r - alphaz
 
-        vector_coef(alphaz, z, alpha, n); // alphar = alpha * z
-        vector_substract(rplus, r, alphaz, n); // r = r - alphaz
+        gamma = vector_scalar(rplus, rplus, dt) / vector_scalar(r, r, dt); // gamma = <rplus,rplus> / <r,r>
 
-        gamma = vector_scalar(rplus, rplus, n) / vector_scalar(r, r, n); // gamma = <rplus,rplus> / <r,r>
+        vector_coef(gammap, p, gamma, dt.npart); // gammap = gamma*p
+        vector_sum(p, rplus, gammap, dt.npart); // p = r + gammap
 
-        vector_coef(gammap, p, gamma, n); // gammap = gamma*p
-        vector_sum(p, rplus, gammap, n); // p = r + gammap
+        beta = sqrt(vector_scalar(rplus, rplus, dt)); // beta = ||r||
 
-        beta = sqrt(vector_scalar(rplus, rplus, n)); // beta = ||r||
-
-        memcpy(r, rplus, dt.Nx*dt.Ny*sizeof(double));
-        memcpy(u, uplus, dt.Nx*dt.Ny*sizeof(double));
+        memcpy(r, rplus, dt.npart*sizeof(double));
+        memcpy(u, uplus, dt.npart*sizeof(double));
         k++;
     }
     if (k > dt.Kmax) {
         printf("Tolérence non atteinte norme=%f", beta);
     }
-    free(r), free(p), free(z), free(uplus), free(rplus), free(alphap), free(alphaz), free(gammap);
+    free(r);
+    free(p);
+    free(z);
+    free(uplus);
+    free(rplus);
+    free(alphap);
+    free(alphaz); 
+    free(gammap);
 }

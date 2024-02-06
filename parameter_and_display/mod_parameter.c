@@ -13,12 +13,12 @@ void Read_parameter(struct data *dt)
     double xmax, xmin, ymax, ymin, Lx, Ly, D, DeltaT, Tmax, eps;
     char val_file[100];
 
-    file_parameter = fopen("parameter.dat","r");
+    file_parameter = fopen("parameter.txt","r");
 
     // Verification de l'existence du fichier
 
     if(file_parameter == NULL) {
-        printf("Erreur : Impossible d'ouvrir le fichier parameter.dat.\n");
+        printf("Erreur : Impossible d'ouvrir le fichier parameter.txt.\n");
     }
 
     //Récupération des valeures à l'aide de la chaîne de charactères val_file

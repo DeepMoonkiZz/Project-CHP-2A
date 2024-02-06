@@ -3,7 +3,7 @@
 #include <math.h>
 
 #include <openmpi/mpi.h>
-#include "/home/segal/Documents/MatMeca/S8/CHP/fonction/charge.h"
+#include "/home/segal/Documents/MatMeca/S8/CHP/Project-CHP-2A/fonction/charge.h"
 
 #include "mod_gradient.h"
 #include "mod_operations.h"
@@ -79,10 +79,9 @@ int main(int argc, char ** argv)
 
     int p = 0;
 
-    while (data.Tmax > t + data.DeltaT/2) {
+    while (data.Tmax > t + pow(10, -10)) {
         t += data.DeltaT;
 
-        printf("t: %f tmax: %f \n",t,data.Tmax);
         // Compute u
         Build_vect_b(b, u, t, data);
         gradient_conjugate(u, b, data);

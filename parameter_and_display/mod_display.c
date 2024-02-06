@@ -38,11 +38,9 @@ void display_u(double * u, struct data dt, int p, int type_sol){
     if (dt.function == 1) {
       sprintf(filename, "Solutions/Stationnaire_1/Exact/sol_%d.dat", p);
     }
-
     else if (dt.function == 2) {
       sprintf(filename, "Solutions/Stationnaire_2/Exact/sol_%d.dat", p);
     }
-
     else if (dt.function == 3) {
       sprintf(filename, "Solutions/Instationnaire/Exact/sol_%d.dat", p);
     }    
@@ -57,7 +55,7 @@ void display_u(double * u, struct data dt, int p, int type_sol){
   file_display = fopen(filename, "w");
 
   // ---------------------------------------------------------------------------
-
+  
   int k = 0;
 
   for(int j = 0; j < dt.Ny; j++){
@@ -67,5 +65,4 @@ void display_u(double * u, struct data dt, int p, int type_sol){
     }
   }
   fclose(file_display);
-
 }

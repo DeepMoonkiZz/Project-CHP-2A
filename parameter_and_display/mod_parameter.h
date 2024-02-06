@@ -27,7 +27,8 @@ struct data
     double DeltaY;
 
     int rank;
-    int nproc;    
+    int nproc;  
+    int npart;  
     int iBeg;
     int iEnd;
 };

@@ -87,5 +87,5 @@ double Calculate_error(double* u_exact, double* u, int n)
     for (int i=0; i<n; i++) {
         sum += (u_exact[i]-u[i])*(u_exact[i]-u[i]);
     }
-    return sqrt(sum)/n;
+    return sum/n;
 }
