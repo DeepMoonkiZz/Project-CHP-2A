@@ -1,0 +1,12 @@
+set palette defined (-5 0 0 1, 0 1 1 1, 5 1 0 0)
+
+dt=0.1
+
+do for [i = 0:98] {
+	t=i*dt
+    set title "./sol_".i.".dat"
+    set title "t = ".sprintf("%f", t)." s"
+    show title
+    plot "./sol_".i.".dat" u 1:2:3 with image
+    pause 0.2
+}

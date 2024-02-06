@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "mod_gradient.h": "c"
+        "mod_gradient.h": "c",
+        "mod_scheme.h": "c",
+        "mod_operations.h": "c",
+        "mod_parameter.h": "c",
+        "mod_display.h": "c",
+        "mod_function.h": "c",
+        "mpi.h": "c"
     }
 }

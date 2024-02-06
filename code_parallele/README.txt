@@ -20,30 +20,10 @@ la fonction f, remplacer la dernière valeur par un entier compris entre 1 et 3.
 
 3 - CALCUL ET RÉCUPÉRATION DES DONNÉES
 
-a - Cas des solutions stationnaires :
+Créer l'éxécutable en effectuant la commande make
 
-Dans le module mod_display.c, remplacer la ligne 17 comme ceci :
+Choisir la solution dans parametre.dat comme dit précédemment
 
-- Pour le cas 1 :
-
-  sprintf(filename, "Solutions/Stationnaire_1/sol_%d.dat", p);
-
-- Pour le cas 2 :
-
-  sprintf(filename, "Solutions/Stationnaire_2/sol_%d.dat", p);
-
-Ensuite, dans main.c, vérifier que la ligne 75 n'est pas en commentaire et que
-les lignes 71 et 72 le sont.
-Faire ./run pour lancer le programme et récupérer les données.
-
-b - Cas de la solution instationnaire
-
-Dans le module mod_display.c, remplacer la ligne 17 comme ceci :
-
-  sprintf(filename, "Solutions/Instationnaire/sol_%d.dat", p);
-
-Ensuite, dans main.c, vérifier que la ligne 75 est en commentaire et que
-les lignes 71 et 72 ne le sont pas.
 Faire ./run pour lancer le programme et récupérer les données.
 
 --------------------------------------------------------------------------------

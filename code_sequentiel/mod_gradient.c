@@ -20,14 +20,14 @@ void gradient_conjugate(double* u, double* b, struct data dt)
     double* alphaz = (double*)malloc(n*sizeof(double));
     double* gammap = (double*)malloc(n*sizeof(double));
     
-    matvect_product(z, u, dt.Nx, dt.Ny, dt.DeltaT, dt.DeltaX, dt.DeltaY); // z = A * u
+    matvect_product(z, u, dt.Nx, dt.Ny, dt.DeltaT, dt.DeltaX, dt.DeltaY, dt.D, dt.function); // z = A * u
     vector_substract(r, b, z, n); // r = b - z
     memcpy(p, r, dt.Nx*dt.Ny*sizeof(double)); // p = r
     beta = sqrt(vector_scalar(r, r, n)); // beta = ||r||
 
     while (beta > dt.eps && k < dt.Kmax) {
 
-        matvect_product(z, p, dt.Nx, dt.Ny, dt.DeltaT, dt.DeltaX, dt.DeltaY); // z = Ap
+        matvect_product(z, p, dt.Nx, dt.Ny, dt.DeltaT, dt.DeltaX, dt.DeltaY, dt.D, dt.function); // z = Ap
 
         alpha = vector_scalar(r, r, n) / vector_scalar(z, p, n); // alpha = <r,r> / <z,p>
 

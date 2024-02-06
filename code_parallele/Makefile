@@ -1,5 +1,5 @@
 # Compilateur utilisé
-CC=gcc
+CC=mpicc
 
 # Options en mode optimisé - La variable DEBUG est définie comme fausse
 OPTIM_FLAG = -g -Wall -lm
@@ -13,7 +13,7 @@ CFLAGS = $(OPTIM_FLAG)
 PROG = run
 
 # Les fichiers source à compiler
-SRC = main.c mod_gradient.c mod_operations.c mod_scheme.c mod_function.c mod_display.c mod_parameter.c
+SRC = main.c mod_gradient.c mod_operations.c mod_scheme.c mod_function.c /home/segal/Documents/MatMeca/S8/CHP/Project-CHP-2A/parameter_and_display/mod_display.c /home/segal/Documents/MatMeca/S8/CHP/Project-CHP-2A/parameter_and_display/mod_parameter.c /home/segal/Documents/MatMeca/S8/CHP/Project-CHP-2A/fonction/charge.c
 
 # La commande complète : compile seulement si un fichier a été modifié
 $(PROG) : $(SRC)

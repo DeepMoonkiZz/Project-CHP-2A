@@ -45,14 +45,14 @@ double vector_scalar(double* u, double* v, int n)
 }
 
 
-void matvect_product(double* b, double* x, int Nx, int Ny, double DeltaT, double DeltaX, double DeltaY)
-// Matrix vector product of A (matrix) and x (vector) giving the result b
+void matvect_product(double* b, double* x, int Nx, int Ny, double DeltaT, double DeltaX, double DeltaY, double D, int f)
+// Matrix vector product of A (laplacian matrix) and x (vector) giving the result b
 {
     double C, Cx, Cy;
 
-    C = 1 + 2*DeltaT/(DeltaX*DeltaX) + 2*DeltaT/(DeltaY*DeltaY);
-    Cx = -DeltaT/(DeltaX*DeltaX);
-    Cy = -DeltaT/(DeltaY*DeltaY);
+    Cx = -DeltaT*D/(DeltaX*DeltaX);
+    Cy = -DeltaT*D/(DeltaY*DeltaY);
+    C = 1 - 2*Cx - 2*Cy;
 
     for (int i = 0; i < Nx*Ny; i++) {
         b[i] = C * x[i];
@@ -69,4 +69,23 @@ void matvect_product(double* b, double* x, int Nx, int Ny, double DeltaT, double
             b[i] += Cy * x[i-Nx];
         }
     }
+
+    if (f==4 || f==5) {
+        for (int i = 0; i < Nx; i++) {
+            b[Nx*(Ny-1) + i] += Cy * x[Nx*(Ny-1) + i];
+        }
+        for (int j = 0; j < Ny; j++) {
+            b[Nx*j] += Cx * x[Nx*j];
+        }
+    }
+}
+
+
+double Calculate_error(double* u_exact, double* u, int n)
+{
+    double sum=0;
+    for (int i=0; i<n; i++) {
+        sum += (u_exact[i]-u[i])*(u_exact[i]-u[i]);
+    }
+    return sum/n;
 }
